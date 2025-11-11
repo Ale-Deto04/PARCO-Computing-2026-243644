@@ -12,6 +12,15 @@ The analysis is structured across two main deliverables, comparing the baseline 
 
 ---
 
+## Deliverables
+
+The two deliverables differ in the parallelization technology employed to speed up the task:
+
+1. First deliverable: shared-memory system (OpenMP)
+2. Second deliverable: TBD
+
+--- 
+
 ## Environment
 
 All the performance tests and profiles are conducted on the Univesrity of Trento's HPC cluster.
