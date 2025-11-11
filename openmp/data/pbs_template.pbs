@@ -77,7 +77,7 @@ for (( i=0; i<TEST_NUM; i++ )); do
     echo "# Testing session $((i+1))" >> "$OUTPUT_FILE"
 
     for matrix in "${set[@]}"; do
-        ./"$PROGRAM_NAME" "$matrix" >> "$OUTPUT_FILE"
+        perf stat -e cycles,instructions,L1-dcache-loads,L1-dcache-load-misses,LLC-loads,LLC-load-misses ./"$PROGRAM_NAME" "$matrix" >> "$OUTPUT_FILE"
     done
 
 done
