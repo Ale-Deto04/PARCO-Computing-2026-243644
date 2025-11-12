@@ -152,20 +152,18 @@ export OMP_SCHEDULE="static"    # Scheduling strategy
 
 ### Execute on UniTn HPC cluster
 
-#### Parallel execution
+#### Sequential execution
 
-1. Download and edit the `data/parallel_pbs_template.pbs`. Set the proper `#PBS` parameters according to your resources requirements, specifically:
+1. Download and edit the `data/sequential_pbs_template.pbs`. Set the proper `#PBS` parameters according to your resources requirements, specifically:
 - `# Job name` (line 4): job name on the cluster
 - `# Output and error files path` (lines 7 - 8): path to the `stdout` and `stderr` output file
 - `# Queue name` (line 11): `short_cpuQ` by default
 - `# Maximum wall time` (line 14): in the format `HH:MM:SS`
-- `# Number of nodes, cpus and memory` (line 17)
+- `# Number of nodes, cpus and memory` (line 17): one cpu by default
 
-2. Edit environment variables `THREADS` (line 26) and `SCHEDULING` (line 27) in order to explicitly define the omp threads number and the scheduling policy used by the program.
+2. Finally edit the absolute paths to matrices (line 62) and **move or copy the pbs to the source code folder**. 
 
-3. Finally edit the absolute paths to matrices (line 62) and **move or copy the pbs to the source code folder**. 
-
-Go to the source code folder and execute:
+3. Go to the source code folder and execute:
 
 ```bash
 qsub pbs_template.pbs
@@ -175,9 +173,13 @@ The script automatically compiles and runs the program on the HPC cluster 10 tim
 
 *`perf` output is printed on the `stderr`*
 
-#### Sequential execution
+#### Parallel execution
 
-Use the `sequential_pbs_template.pbs` for sequential code and skip step 2.
+Use the `parallel_pbs_template.pbs` for sequential code and follow the steps above.
+
+Edit environment variables `THREADS` (line 26) and `SCHEDULING` (line 27) before step 2 in order to explicitly define the omp threads number and the scheduling policy used by the program.
+
+Ensure that `THREADS` does not exceed the number of CPUs requested (`ncpus`) in the `# Number of nodes, cpus and memory` query.
 
 ### Output
 
