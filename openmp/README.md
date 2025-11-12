@@ -152,7 +152,7 @@ export OMP_SCHEDULE="static"    # Scheduling strategy
 
 ### Execute on UniTn HPC cluster
 
-#### PARALLEL EXECUTION
+#### Parallel execution
 
 1. Download and edit the `data/parallel_pbs_template.pbs`. Set the proper `#PBS` parameters according to your resources requirements, specifically:
 - `# Job name` (line 4): job name on the cluster
@@ -175,7 +175,7 @@ The script automatically compiles and runs the program on the HPC cluster 10 tim
 
 *`perf` output is printed on the `stderr`*
 
-#### SEQUENTIAL EXECUTION
+#### Sequential execution
 
 Use the `sequential_pbs_template.pbs` for sequential code and skip step 2.
 
