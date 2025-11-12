@@ -32,7 +32,7 @@ The class defines the CSR data structure and provides the implementation of the 
 
 ### Parallelization
 
-OpenMP has been used to parallelize the `multiply_to_vector()` function implemented in the `csr.cpp` file:
+OpenMP has been used to parallelize the `multiply_to_vector()` method implemented in the `csr.cpp` file:
 
 ```cpp
 vector<double> CompressedSparseRow::multiply_to_vector(const vector<double>& vec) const {
