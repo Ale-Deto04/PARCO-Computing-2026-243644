@@ -32,7 +32,27 @@ The class defines the CSR data structure and provides the implementation of the 
 
 ### Parallelization
 
-OpenMP has been used to parallelize the `multiply_to_vector()` function implemented in the `csr.cpp` file.
+OpenMP has been used to parallelize the `multiply_to_vector()` function implemented in the `csr.cpp` file:
+
+```cpp
+vector<double> CompressedSparseRow::multiply_to_vector(const vector<double>& vec) const {
+
+    vector<double> result(original_matrix_row_number);
+
+    for (size_t i = 0; i < original_matrix_row_number; i++) {
+
+        double partial_sum = 0;
+
+        for (int j = csr_row[i]; j < csr_row[i + 1]; j++) {
+            partial_sum += vec[csr_col[j]] * csr_val[j];
+        }
+
+        result[i] = partial_sum;
+    }
+
+    return result;
+}
+```
 
 Two level of parallelization have been adopted:
 
@@ -72,7 +92,7 @@ Specifically, the tests covered:
 - **SIMD options**: with and without `#pragma omp simd`  
 - **Number of threads**: 4, 8, 16, 32, 64  
 
-The `pbs_template.pbs` used for the HPC cluster, located in the `data/` folder, automates these runs. It contains a Bash script that executes the program 10 times per matrix for the specified configuration.
+The `pbs_template.pbs` used for the HPC cluster, located in the `data/pbs/` folder, automates these runs. It contains a Bash script that executes the program 10 times per matrix for the specified configuration.
 
 `perf stat` has been used to collect hardware performance counters with minimal overhead (estimated <1%).
 
@@ -81,6 +101,10 @@ The `pbs_template.pbs` used for the HPC cluster, located in the `data/` folder, 
 ---
 
 ## Usage
+
+### Minimum requirements
+- **Compiler:** g++ 4.8 or higher  
+- **C++ Standard:** C++11 or later
 
 ### Setup
 
@@ -101,14 +125,12 @@ cd sequential/
 g++ -std=c++11 -o sequential.elf -O3 -march=native *.cpp
 ```
 
-Compile the parallel code:
+Compile the parallel code (valid for `parallel_simd/` as well):
 
 ```bash
 cd parallel_no_simd/
 g++ -std=c++11 -fopenmp -o parallel.elf -O3 -march=native *.cpp
 ```
-
-*For the `parallel_simd/` code repeat the same operations*
 
 ### Execute
 
@@ -127,6 +149,35 @@ export OMP_SCHEDULE="static"    # Scheduling strategy
 
 ./parallel.elf /path/to/matrix
 ```
+
+### Execute on UniTn HPC cluster
+
+#### PARALLEL EXECUTION
+
+1. Download and edit the `data/parallel_pbs_template.pbs`. Set the proper `#PBS` parameters according to your resources requirements, specifically:
+- `# Job name` (line 4): job name on the cluster
+- `# Output and error files path` (lines 7 - 8): path to the `stdout` and `stderr` output file
+- `# Queue name` (line 11): `short_cpuQ` by default
+- `# Maximum wall time` (line 14): in the format `HH:MM:SS`
+- `# Number of nodes, cpus and memory` (line 17)
+
+2. Edit environment variables `THREADS` (line 26) and `SCHEDULING` (line 27) in order to explicitly define the omp threads number and the scheduling policy used by the program.
+
+3. Finally edit the absolute paths to matrices (line 62) and **move or copy the pbs to the source code folder**. 
+
+Go to the source code folder and execute:
+
+```bash
+qsub pbs_template.pbs
+```
+
+The script automatically compiles and runs the program on the HPC cluster 10 times for matrix. Results will appear in the current directory once the execution is completed.
+
+*`perf` output is printed on the `stderr`*
+
+#### SEQUENTIAL EXECUTION
+
+Use the `sequential_pbs_template.pbs` for sequential code and skip step 2.
 
 ### Output
 
