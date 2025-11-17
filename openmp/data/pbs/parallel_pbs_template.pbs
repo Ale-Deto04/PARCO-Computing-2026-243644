@@ -18,6 +18,7 @@
 
 # Load modules
 module load gcc91
+module load perf
 
 # Goes to qsub origin directory
 cd "$PBS_O_WORKDIR"
