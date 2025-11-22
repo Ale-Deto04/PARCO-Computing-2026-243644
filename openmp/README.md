@@ -12,7 +12,8 @@ openmp/
 ├── data/
 │   ├── pbs/
 │   ├── perf_output/
-│   └── real_time_table.xlsx
+│   ├── real_time_table.xlsx
+│   └── report.pdf
 ├── images/
 │   └── graphs/
 ├── README.md
