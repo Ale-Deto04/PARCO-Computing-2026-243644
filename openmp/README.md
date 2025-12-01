@@ -223,7 +223,7 @@ A verbose flag `-v` can be used for a more detailed output e.g.
 
 ---
 
-> [!Note]
+> [!NOTE]
 
 > The performance measurements obtained on the HPC cluster were highly variable.  
   Identical runs, even separated by short time intervals, could produce drastically different results.  
