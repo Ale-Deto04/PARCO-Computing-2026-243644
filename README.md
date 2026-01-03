@@ -8,16 +8,11 @@ The repository is related to the "Introduction to parallel programming" course h
 
 The project aims to analyze and benchmark the performance variations between sequential and parallel C++ implementations of the Sparse Matrix - Vector Multiplication (SpMV) algorithm, using the Compressed Sparse Row (CSR) format.
 
-The analysis is structured across two main deliverables, comparing the baseline sequential code against various parallel implementations to evaluate speedup, efficiency, and scalability.
-
 ---
 
-## Deliverables
+## Technology
 
-The two deliverables differ in the parallelization technology employed to speed up the task:
-
-1. First deliverable: shared-memory system (OpenMP)
-2. Second deliverable: TBD
+The code parallelization is achieved via OpenMP on shared-memory system.
 
 --- 
 
