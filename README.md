@@ -1,4 +1,4 @@
-# PARCO-Computing-2026-243644
+# SpMV Kernel Optimization
 
 The repository is related to the "Introduction to parallel programming" course held at the University of Trento
 
